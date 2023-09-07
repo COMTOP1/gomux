@@ -25,11 +25,11 @@ type SplitAttr struct {
 }
 
 func (this *Pane) Exec(command string) {
-	fmt.Fprintf(this.Window.Session.Writer, "tmux send-keys -t \"%s\" \"%s\" %s\n", this.getTargetName(), strings.Replace(command, "\"", "\\\"", -1), "C-m")
+	fmt.Fprintf(this.Window.Session.Writer, "tmux send-keys -t \"%s\" \"%s\" %s\n", this.GetTargetName(), strings.Replace(command, "\"", "\\\"", -1), "C-m")
 }
 
 func (this *Pane) Vsplit() *Pane {
-	fmt.Fprint(this.Window.Session.Writer, splitWindow{h: true, t: this.getTargetName()})
+	fmt.Fprint(this.Window.Session.Writer, splitWindow{h: true, t: this.GetTargetName()})
 	return this.Window.AddPane(this.Number + 1)
 }
 
@@ -43,12 +43,12 @@ func (this *Pane) VsplitWAttr(attr SplitAttr) *Pane {
 		c = this.Window.Session.Directory
 	}
 
-	fmt.Fprint(this.Window.Session.Writer, splitWindow{h: true, t: this.getTargetName(), c: c})
+	fmt.Fprint(this.Window.Session.Writer, splitWindow{h: true, t: this.GetTargetName(), c: c})
 	return this.Window.AddPane(this.Number + 1)
 }
 
 func (this *Pane) Split() *Pane {
-	fmt.Fprint(this.Window.Session.Writer, splitWindow{v: true, t: this.getTargetName()})
+	fmt.Fprint(this.Window.Session.Writer, splitWindow{v: true, t: this.GetTargetName()})
 	return this.Window.AddPane(this.Number + 1)
 }
 
@@ -62,7 +62,7 @@ func (this *Pane) SplitWAttr(attr SplitAttr) *Pane {
 		c = this.Window.Session.Directory
 	}
 
-	fmt.Fprint(this.Window.Session.Writer, splitWindow{v: true, t: this.getTargetName(), c: c})
+	fmt.Fprint(this.Window.Session.Writer, splitWindow{v: true, t: this.GetTargetName(), c: c})
 	return this.Window.AddPane(this.Number + 1)
 }
 
@@ -83,10 +83,10 @@ func (this *Pane) ResizeDown(num int) {
 }
 
 func (this *Pane) resize(prefix string, num int) {
-	fmt.Fprintf(this.Window.Session.Writer, "tmux resize-pane -t \"%s\" -%s %v\n", this.getTargetName(), prefix, fmt.Sprint(num))
+	fmt.Fprintf(this.Window.Session.Writer, "tmux resize-pane -t \"%s\" -%s %v\n", this.GetTargetName(), prefix, fmt.Sprint(num))
 }
 
-func (this *Pane) getTargetName() string {
+func (this *Pane) GetTargetName() string {
 	return this.Window.Session.Name + ":" + fmt.Sprint(this.Window.Number) + "." + fmt.Sprint(this.Number)
 }
 
